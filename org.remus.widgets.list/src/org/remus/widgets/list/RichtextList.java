@@ -114,6 +114,24 @@ public class RichtextList implements ISelectionProvider {
 				return element.getContent() != null ?  element.getContent() : "";
 			}
 		});
+		providers.put("origHeight", new StringProvider() {
+			@Override
+			public String getStringFromObj(ListElement element) {
+				return String.valueOf(element.getImageHeight());
+			}
+		});
+		providers.put("origWidth", new StringProvider() {
+			@Override
+			public String getStringFromObj(ListElement element) {
+				return String.valueOf(element.getImageWidth());
+			}
+		});
+		providers.put("imageMargin", new StringProvider() {
+			@Override
+			public String getStringFromObj(ListElement element) {
+				return String.valueOf(element.getImageWidth() + 8);
+			}
+		});
 	}
 
 	/**

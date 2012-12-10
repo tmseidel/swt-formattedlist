@@ -55,10 +55,10 @@ public class SampleView extends ViewPart {
 	 * it.
 	 */
 	public void createPartControl(Composite parent) {
-		parent.setLayout(new GridLayout(3, false));
+		parent.setLayout(new GridLayout(4, false));
 
 		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3,
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 4,
 				1));
 
 		composite.setLayout(new FillLayout());
@@ -110,14 +110,36 @@ public class SampleView extends ViewPart {
 
 			}
 		});
-		new Label(parent, SWT.NONE);
-		new Label(parent, SWT.NONE);
-		new Label(parent, SWT.NONE);
+		
+		Button btnAddRowWithImage = new Button(parent, SWT.NONE);
+		btnAddRowWithImage.setText("Add new Row with image");
+		btnAddRowWithImage.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				ListElement listElement = new ListElement();
+				listElement
+						.setContent("This is an element with an image. This is only for demonstration purposes. The image is referenced with a url and can be stored remotely or locally. In this column you can use of course also <strike>useless</strike> <strong>different</strong> html <i>formatters</i> or css stylings");
+				listElement.setHeader("Example Item with Image");
+				listElement.setId(String.valueOf(System.currentTimeMillis()));
+				listElement.setTimeLabel("now");
+				listElement.setTimeTooltip("now");
+				listElement.setImageUrl("http://cdn3.spiegel.de/images/image-435306-hpcpleftcolumn-jvdm.jpg");
+				listElement.setImageWidth(120);
+				listElement.setImageHeight(90);
+				richtextList.addElement(listElement, -1, true);
+				
+			}
+		});
+		
+		Label lblSelectionevents = new Label(parent, SWT.NONE);
+		lblSelectionevents.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 4, 1));
+		lblSelectionevents.setText("Selection-Events");
 
 		txtSelection = new Text(parent, SWT.BORDER | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.CANCEL | SWT.MULTI);
 		GridData layoutData = new GridData(SWT.FILL, SWT.CENTER, true, false,
-				3, 1);
+				4, 1);
 		layoutData.heightHint = 150;
 		layoutData.minimumHeight = 150;
 		txtSelection.setLayoutData(layoutData);
