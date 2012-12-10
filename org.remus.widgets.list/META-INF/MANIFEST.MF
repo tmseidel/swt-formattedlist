@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: List
+Bundle-SymbolicName: org.remus.widgets.list
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.remus.widgets.list.ListActivator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: org.apache.commons.lang
+Export-Package: org.remus.widgets.list
+Bundle-ClassPath: listview.jar

@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<script src="jquery-1.8.3.min.js"></script>
+		<style type="text/css" media="screen">
+			.content-main {
+				float: none;
+				width: 100%;
+				margin: 0 auto;
+			}
+			.content-main-with-title {
+				border-radius: 6px 6px 6px 6px;
+			}
+			body.ms-windows {
+				font-family: Arial, sans-serif;
+			}
+			body, label, input, textarea, select, button {
+				font-family: "Helvetica Neue", Arial, sans-serif;
+			}
+			body {
+				color: #333333;
+				font-size: 14px;
+				line-height: 18px;
+				margin: 10px 10px;
+				padding: 0px;
+			}
+			a {
+				color: #0084B4;
+				text-decoration: none;
+			}
+
+			.content-header {
+				border-bottom-width: 0;
+				background-clip: padding-box;
+				border: 1px solid rgba(0, 0, 0, 0.1);
+				border-radius: 6px 6px 0 0;
+			}
+			.content-header .header-inner {
+				background-color: #FFFFFF;
+				border-bottom: 1px solid #E8E8E8;
+				border-radius: 5px 5px 0 0;
+				min-height: 20px;
+				padding: 12px;
+			}
+			h2 {
+				font-size: 18px;
+				font-weight: bold;
+				line-height: 20px;
+				color: #333333;
+				margin: 0;
+				text-rendering: optimizelegibility;
+			}
+
+			.stream, .stream-items {
+				position: relative;
+			}
+
+			.stream-item {
+				background: none repeat scroll 0 0 padding-box #FFFFFF;
+				border-left: 1px solid rgba(0, 0, 0, 0.1);
+				border-right: 1px solid rgba(0, 0, 0, 0.1);
+			}
+
+			.content-element {
+				cursor: pointer;
+				border-bottom: 1px solid #E8E8E8;
+				min-height: 51px;
+				padding: 9px 12px;
+				position: relative;
+			}
+
+			.stream-item .content {
+				margin-right: 138px;
+			}
+			.stream-item .content-only-txt {
+				margin-right: 5px;
+			}
+
+			.content-element .time {
+				color: #BBBBBB;
+				float: right;
+				margin-top: 1px;
+				position: relative;
+			}
+			.time, .time a {
+				color: #999999;
+				font-size: 12px;
+			}
+
+			a {
+				color: #0084B4;
+			}
+
+			.stream-item-header .avatar {
+				right: 12px;
+				position: absolute;
+				top: 12px;
+			}
+			.avatar {
+				border-radius: 5px 5px 5px 5px;
+				height: 64px;
+				width: 120px;
+			}
+			img {
+				border: 0 none;
+			}
+			.content-element p {
+				word-wrap: break-word;
+			}
+			p {
+				margin: 0;
+			}
+			.content-element .stream-item-footer {
+				font-size: 12px;
+				padding-top: 1px;
+			}
+			.stream-item-footer {
+				color: #999999;
+			}
+			.content-element .details {
+				display: inline-block;
+				margin-right: 2px;
+			}
+
+			.content-element:hover {
+				background-color: #F5F5F5;
+			}
+
+			ul {
+				list-style: none outside none;
+			}
+			ul, ol {
+				margin: 0;
+				padding: 0;
+			}
+
+			.content-element-selected {
+				background-color: #C3D7DE;
+			}
+			.content-element-selected:hover {
+				background-color: #C3D7DE;
+			}
+			a:hover, a:focus {
+				text-decoration: underline;
+			}
+			.stream-item-header-label:hover {
+				text-decoration: none;
+			}
+			.stream-item-header-label {
+				color: #333333;
+				font-weight: bold;
+			}
+			.hiddenfirst {
+				display:none;
+			}
+
+		</style>
+	</head>
+	<body>
+
+		<div class="content-main content-main-with-title">
+			<div class="content-header">
+				<div class="header-inner">
+					<h2 id="_title">Header</h2>
+				</div>
+				<div class="stream-container">
+					<div class="stream">
+						<div class="stream-items" id="stream-items-id">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		
+
+		<script type="text/javascript" >
+			 $(document).on('click','.content-element',function() {
+				$(".content-element").removeClass("content-element-selected");
+				$(this).addClass("content-element-selected");
+				try {
+					_delegate_select($(this).parent().attr("id"));
+				} catch (e) {
+					
+					//skip this one 
+				}
+				
+			});
+			$(window).bind('blur', function() {
+
+			})
+			
+			function appendElement(html2add, refId, fade) {
+				add(html2add,refId,true,fade);
+			}
+			
+			function prependElement(html2add, refId, fade) {
+				add(html2add,refId,true,fade);
+			}
+			
+			function deleteElement(refId, fade) {
+				if ("null" != $("#" + refId)) {
+					 $("#" + refId).fadeOut(400);
+					 $("#" + refId).remove();
+				}
+			}
+			
+			function deleteAll() {
+				$(".stream-item").remove();
+			}
+			
+			function selectElement(id, reveal) {
+				$(".content-element").removeClass("content-element-selected");
+				var element2Select = $("#" + id + " .content-element");
+				element2Select.addClass("content-element-selected");
+				if (reveal) {
+					$("html").scrollTop(element2Select.position().top);
+				}
+			}
+			
+			function getSelectedElement() {
+				return $(".content-element-selected").first().parent().attr("id");
+			}
+			
+			function add(html2add, refId, prepend,fade) {
+				if ("null" == refId || "" == refId) {
+					if ("null" == prepend || prepend) {
+						$(html2add).prependTo("#stream-items-id");
+					} else {
+						$(html2add).appendTo("#stream-items-id");
+					}
+				} else {
+					if ("null" != $("#" + refId)) {
+						if ("null" == prepend || prepend) {
+							$("#" + refId).prepend(html2add);
+						} else {
+							$("#" + refId).append(html2add);
+						}
+					}
+				}
+				
+				if (fade) {
+					$(".hiddenfirst").fadeIn(400);
+				}
+				$(".hiddenfirst").removeClass("hiddenfirst");
+			}
+			try {
+				_delegate_init();
+			} catch(e) {
+			 // todo error-handling
+			}
+		</script>
+	</body>
+
+</html>
