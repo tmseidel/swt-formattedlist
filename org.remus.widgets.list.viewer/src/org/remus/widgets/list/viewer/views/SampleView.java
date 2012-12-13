@@ -55,15 +55,20 @@ public class SampleView extends ViewPart {
 	 * it.
 	 */
 	public void createPartControl(Composite parent) {
-		parent.setLayout(new GridLayout(4, false));
+		GridLayout gl_parent = new GridLayout(4, false);
+		gl_parent.marginWidth = 0;
+		gl_parent.marginHeight = 0;
+		
+		parent.setLayout(gl_parent);
 
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 4,
 				1));
 
-		composite.setLayout(new FillLayout());
-		richtextList = new RichtextList(composite, SWT.NONE,
-				"http://code.jquery.com/jquery-latest.js");
+		FillLayout layout = new FillLayout();
+		
+		composite.setLayout(layout);
+		richtextList = new RichtextList(composite, SWT.BORDER);
 
 		Button btnRemoveSelectedRow = new Button(parent, SWT.NONE);
 		btnRemoveSelectedRow.setText("Remove Selected Row");
