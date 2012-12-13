@@ -65,8 +65,6 @@ public class RichtextList implements ISelectionProvider {
 
 	private ListenerList selectionChangedListeners = new ListenerList();
 
-	private String jqueryUrl;
-
 	private abstract static class StringProvider {
 		public abstract String getStringFromObj(ListElement element);
 	}
@@ -178,8 +176,7 @@ public class RichtextList implements ISelectionProvider {
 
 	}
 
-	public RichtextList(Composite parent, int style, String jqueryUrl) {
-		this.jqueryUrl = jqueryUrl;
+	public RichtextList(Composite parent, int style) {
 		browser = new Browser(parent, style);
 		browser.setMenu(new Menu(browser));
 		elements = new ArrayList<ListElement>();
@@ -195,7 +192,7 @@ public class RichtextList implements ISelectionProvider {
 		new RenderCompleteFunction(browser);
 	}
 
-	public void initialize() {
+	void initialize() {
 		new SelectionChangedFunction(browser);
 		addElements(elements);
 
@@ -319,12 +316,6 @@ public class RichtextList implements ISelectionProvider {
 
 	}
 	
-	private String getInitialHtml() {
-		InputStream resourceAsStream = getClass().getResourceAsStream("initial.html");
-		String slurp = slurp(resourceAsStream, 4096);
-		
-		return slurp.replace("[jqueryUrl]", this.jqueryUrl);
-	}
 
 	private static String slurp(final InputStream is, final int bufferSize) {
 		final char[] buffer = new char[bufferSize];
